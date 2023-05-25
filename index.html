@@ -1,0 +1,43 @@
+<div id="result"></div>
+
+<script>
+// URL de la API que deseas consumir
+var apiUrl = 'http://192.168.50.7:5000/books';
+
+// Realiza la solicitud a la API
+fetch(apiUrl, {
+    method: 'GET',
+}).then(function(response) {
+    // Verifica si la solicitud fue exitosa
+    if (response.ok) {
+        // Convierte la respuesta en formato JSON
+        return response.json();
+    }
+        throw new Error('Error en la solicitud a la API: ' + response.status);
+    }).then(function(data) {
+    // Manipula los datos de la API
+    var resultElement = document.getElementById('result');
+    // Genera un div por cada elemento en el array data
+    data.books.forEach(function(item) {
+        var div = document.createElement('div');
+        var id = document.createElement('p');
+        var author = document.createElement('p');
+        var description = document.createElement('p');
+        var title = document.createElement('p');
+        id.textContent = item.id;
+        author.textContent = item.author;
+        description.textContent = item.description;
+        title.textContent = item.title;
+        div.appendChild(id);
+        div.appendChild(author);
+        div.appendChild(description);
+        div.appendChild(title);
+        resultElement.appendChild(div);
+    });
+
+    })
+    .catch(function(error) {
+    // Maneja los errores
+    console.log(error);
+    });
+</script>

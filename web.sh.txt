@@ -1,0 +1,25 @@
+#!/bin/bash
+
+echo "Instalación de las herramientas necesarias" 
+sudo yum update -y
+sudo yum -y install httpd
+sudo systemctl enable httpd
+sudo systemctl start httpd
+sudo yum install -y vim
+sudo yum install -y net-tools
+sudo yum install -y git
+
+echo "configurando el selinux para desactivarlo"
+cat <<TEST> /etc/selinux/config
+SELINUX=disabled
+SELINUXTYPE=targeted
+TEST
+
+# Instalar cliente FTP y otros paquetes
+sudo yum install -y vsftpd
+sudo yum install -y ftp
+
+# Configurar el servidor FTP
+echo "write_enable=YES" | sudo tee -a /etc/vsftpd/vsftpd.conf
+echo "local_root=/var/www/html" | sudo tee -a /etc/vsftpd/vsftpd.conf
+sudo systemctl restart vsftpd

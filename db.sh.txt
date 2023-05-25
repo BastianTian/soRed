@@ -1,0 +1,28 @@
+#!/bin/bash
+
+echo "Instalación de las herramientas necesarias" 
+sudo yum update -y
+sudo yum install -y vim
+sudo yum install -y net-tools
+sudo yum install -y epel-release
+sudo yum install -y python3-pip
+sudo pip3 install Flask
+pip3 install apispec
+pip3 install apispec-webframeworks
+pip3 install marshmallow
+wget https://repo.mysql.com//mysql80-community-release-el9-1.noarch.rpm
+sudo rpm -Uvh mysql80-community-release-el9-1.noarch.rpm
+sudo dnf install -y mysql mysql-server
+sudo systemctl start mysqld
+sudo systemctl enable mysqld
+sudo yum install -y mysql-devel
+sudo yum install -y python3-devel
+sudo yum install -y gcc
+sudo pip3 install flask-mysqldb
+sudo yum install -y git
+
+echo "configurando el selinux para desactivarlo"
+cat <<TEST> /etc/selinux/config
+SELINUX=disabled
+SELINUXTYPE=targeted
+TEST
